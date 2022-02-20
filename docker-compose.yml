@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  uplink-adapter-swarmm138:
+    image: ubuntu:gnuradio-releases-3.7
+    container_name: gnuradio-3.7
+    network_mode : "host"
+    privileged: true    
+    volumes:
+      - /run/udev/control:/run/udev/control    
+      - /dev/bus/usb/:/dev/bus/usb/
+      - /dev:/dev
+      - $MOUNT_DIR_CONTAINER:/home/gnuradio/persistent
+      - "$HOME/.Xauthority:/root/.Xauthority:rw"
+    environment:
+      - DISPLAY
+    command: gnuradio-companion
