@@ -31,10 +31,24 @@ RUN apt-get install -y gnuradio-dev cmake git libboost-all-dev libcppunit-dev li
 # of course, nothing useful can be done without vim
 RUN apt-get install -y vim 
 
+# install limesuite drivers and deps
+RUN add-apt-repository -y ppa:myriadrf/drivers
+RUN apt-get update
+RUN apt-get install -y limesuite liblimesuite-dev limesuite-udev limesuite-images
+RUN apt-get install -y soapysdr-tools soapysdr-module-lms7
+RUN apt-get install -y soapysdr soapysdr-module-lms7
+
+#install gr-limesdr
+RUN add-apt-repository -y ppa:myriadrf/gnuradio
+RUN apt-get update
+RUN apt-get install -y gr-limesdr
+
 USER gnuradio
 
 WORKDIR /home/gnuradio
 
 ENV PYTHONPATH "${PYTHONPATH}:/usr/local/lib/python3/dist-packages"
+
+
 
 CMD bash
