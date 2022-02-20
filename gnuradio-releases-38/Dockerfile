@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 LABEL maintainer="Federico 'Larroca' La rocca - flarroca@fing.edu.uy"
 
 #ENV DEBIAN_FRONTEND=noninteractive
@@ -11,7 +11,7 @@ RUN apt-get install -y gir1.2-gtk-3.0
 # to have add-apt-repository available
 RUN apt-get install -y software-properties-common
 
-RUN add-apt-repository -y ppa:gnuradio/gnuradio-releases-3.7
+RUN add-apt-repository -y ppa:gnuradio/gnuradio-releases-3.8
 
 # create user gnuario with sudo (and password gnuradio)
 RUN apt-get install -y sudo
@@ -26,29 +26,15 @@ RUN apt-get update
 RUN apt-get install -y gnuradio
 
 # installing other packages needed for downloading and installing OOT modules
-RUN apt-get install -y gnuradio-dev cmake git libboost-all-dev libcppunit-dev liblog4cpp5-dev swig liborc-dev
+RUN apt-get install -y gnuradio-dev cmake git libboost-all-dev libcppunit-dev liblog4cpp5-dev swig liborc-dev libgsl-dev
 
 # of course, nothing useful can be done without vim
 RUN apt-get install -y vim 
-
-# install limesuite drivers and deps
-RUN add-apt-repository -y ppa:myriadrf/drivers
-RUN apt-get update
-RUN apt-get install -y limesuite liblimesuite-dev limesuite-udev limesuite-images
-RUN apt-get install -y soapysdr-tools soapysdr-module-lms7
-RUN apt-get install -y soapysdr soapysdr-module-lms7
-
-#install gr-limesdr
-RUN add-apt-repository -y ppa:myriadrf/gnuradio
-RUN apt-get update
-RUN apt-get install -y gr-limesdr
 
 USER gnuradio
 
 WORKDIR /home/gnuradio
 
 ENV PYTHONPATH "${PYTHONPATH}:/usr/local/lib/python3/dist-packages"
-
-
 
 CMD bash
